@@ -90,6 +90,16 @@ accounts, balances) through `api`, not the UI.
   return parsed, typed data and throw on a non-2xx status.
 - Test titles: `should <outcome> when <condition>` (ESLint requires the `should ` prefix).
 
+## AI-assisted workflows
+
+Versioned instructions live in [ai/](ai/README.md) and are exposed as Claude Code commands:
+`/generate-ui-test`, `/generate-api-tests`, `/change-impact`, `/review-ai-tests`.
+
+- Explore the app through the `playwright` MCP server (`.mcp.json`) against the **local**
+  instance only. Never use the public demo for exploration.
+- Everything an agent generates is a draft. It goes through `ai/review-ai-tests.md` before merge.
+- When a review finds a recurring mistake, update the relevant `ai/*.md` and bump its version.
+
 ## Code style
 
 - TypeScript strict; no `any`, no non-null `!`.

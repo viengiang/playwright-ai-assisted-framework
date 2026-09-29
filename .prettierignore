@@ -5,3 +5,4 @@ blob-report/
 all-blob-reports/
 specs/
 package-lock.json
+.playwright-mcp/
