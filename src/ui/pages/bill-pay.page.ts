@@ -38,9 +38,19 @@ export class BillPayPage extends BasePage {
   readonly sendPaymentButton: Locator;
   readonly successHeading: Locator;
   readonly confirmation: Locator;
+  /**
+   * URLs of bill-payment requests this page has sent. The form submits through an AJAX call to
+   * `services_proxy/bank/billpay`, so "no request" is the precise proof that no payment was made.
+   */
+  readonly paymentRequests: string[] = [];
 
   constructor(page: Page) {
     super(page);
+    page.on('request', (request) => {
+      if (new URL(request.url()).pathname.endsWith('/billpay')) {
+        this.paymentRequests.push(request.url());
+      }
+    });
     // Labels are plain <td> text with no <label>/aria-label, and the inputs have no id;
     // `name` is the only stable hook (KNOWN-ISSUES #4).
     this.payeeNameInput = this.content.locator('[name="payee.name"]');
@@ -78,6 +88,10 @@ export class BillPayPage extends BasePage {
     await this.amountInput.fill(String(amount));
     // The account list is populated by AJAX; selectOption waits for the option to exist.
     await this.fromAccountSelect.selectOption(String(fromAccountId));
+    await this.submit();
+  }
+
+  async submit(): Promise<void> {
     await this.sendPaymentButton.click();
   }
 }

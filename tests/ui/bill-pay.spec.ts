@@ -70,12 +70,14 @@ test.describe('Bill pay', () => {
       const transactionsBefore = await api.accounts.getTransactions(customer.primaryAccountId);
       await billPayPage.goto();
 
-      await billPayPage.sendPaymentButton.click();
+      await billPayPage.submit();
 
       for (const [field, message] of expectedErrors) {
         await expect(billPayPage.fieldRow(field)).toContainText(message);
       }
-      await expect(billPayPage.successHeading).toBeHidden();
+      // Validation and the AJAX call run in the same submit handler: once the messages are
+      // visible, a payment request would already have been sent.
+      expect(billPayPage.paymentRequests).toEqual([]);
       const after = await api.accounts.getAccount(customer.primaryAccountId);
       expect(toCents(after.balance)).toBe(toCents(before.balance));
       expect(await api.accounts.getTransactions(customer.primaryAccountId)).toEqual(
@@ -103,7 +105,7 @@ test.describe('Bill pay', () => {
       await expect(billPayPage.fieldRow('Verify Account #:')).toContainText(
         'The account numbers do not match.',
       );
-      await expect(billPayPage.successHeading).toBeHidden();
+      expect(billPayPage.paymentRequests).toEqual([]);
       const after = await api.accounts.getAccount(customer.primaryAccountId);
       expect(toCents(after.balance)).toBe(toCents(before.balance));
       expect(await api.accounts.getTransactions(customer.primaryAccountId)).toEqual(
