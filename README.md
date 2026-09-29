@@ -23,44 +23,27 @@
 ## Architecture
 
 ```mermaid
-flowchart TB
-  subgraph Specs["tests/"]
-    UI["tests/ui/*.spec.ts"]
-    API["tests/api/*.spec.ts"]
+flowchart LR
+  subgraph T[tests]
+    UI[UI specs]
+    API[API specs]
   end
-
-  subgraph Fixtures["src/fixtures (test.extend)"]
-    F["page-object fixtures · api services ·<br/>customer / signedInCustomer (fresh per test)"]
+  FX[Fixtures<br/>pages · api · fresh customer]
+  subgraph U[UI layer]
+    PO[Page objects<br/>+ components]
   end
-
-  subgraph UILayer["UI layer · src/ui"]
-    PO["Page objects<br/>(extend BasePage)"]
-    CMP["Components<br/>(menu, login panel)"]
+  subgraph A[API layer]
+    SVC[Services] --> MOD[zod models]
+    SVC --> BLD[Builders]
+    SVC --> CLI[ApiClient]
   end
-
-  subgraph APILayer["API layer · src/api"]
-    SVC["Services<br/>(one per resource)"]
-    BLD["Builders<br/>(request payloads)"]
-    MOD["Models<br/>(zod schemas → TS types)"]
-    CLI["ApiClient<br/>(APIRequestContext)"]
-  end
-
-  DATA["src/data · faker builders"]
-  CFG["src/config · typed env + global setup"]
-  SUT[("ParaBank<br/>Docker (default, CI) · public demo (opt-in)")]
-
-  UI --> F
-  API --> F
-  F --> PO
-  F --> SVC
-  F --> DATA
-  PO --> CMP
-  SVC --> BLD
-  SVC --> MOD
-  SVC --> CLI
+  SUT[(ParaBank<br/>Docker · public)]
+  UI --> FX
+  API --> FX
+  FX --> PO
+  FX --> SVC
   PO -- browser --> SUT
   CLI -- HTTP --> SUT
-  CFG -.-> F
 ```
 
 - **Specs** import `test` and `expect` only from `@fixtures`, and ESLint enforces this. Fixtures hand
