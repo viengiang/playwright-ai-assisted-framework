@@ -1,0 +1,21 @@
+# Local, isolated ParaBank instance (ENV=local). Used by CI and for deterministic local runs.
+services:
+  parabank:
+    image: parasoft/parabank:latest
+    ports:
+      - '${PARABANK_PORT:-8090}:8080'
+    healthcheck:
+      # The image ships without curl/wget, so issue a raw HTTP request with bash's /dev/tcp.
+      # 200/302 = webapp deployed. A fresh DB redirects to initializeDB.htm; global-setup seeds it.
+      test:
+        - CMD
+        - bash
+        - -c
+        - >-
+          exec 3<>/dev/tcp/localhost/8080 &&
+          printf 'GET /parabank/index.htm HTTP/1.0\r\n\r\n' >&3 &&
+          head -1 <&3 | grep -qE ' (200|302) '
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
