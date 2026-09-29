@@ -49,12 +49,12 @@ Import through the path aliases in `tsconfig.json` (`@fixtures`, `@pages/*`, `@a
 
 ## Fixtures
 
-| Fixture                                                                                     | Gives you                                                              |
-| ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `api`                                                                                       | `{ customers, accounts, transfers }` services on the REST API.         |
-| `customer`                                                                                  | A new customer registered over HTTP. The browser is **not** logged in. |
-| `signedInCustomer`                                                                          | A new customer whose session is already in the browser context.        |
-| `loginPage`, `registerPage`, `accountsOverviewPage`, `openAccountPage`, `transferFundsPage` | Page objects.                                                          |
+| Fixture                                                                                                    | Gives you                                                              |
+| ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `api`                                                                                                      | `{ customers, accounts, transfers }` services on the REST API.         |
+| `customer`                                                                                                 | A new customer registered over HTTP. The browser is **not** logged in. |
+| `signedInCustomer`                                                                                         | A new customer whose session is already in the browser context.        |
+| `loginPage`, `registerPage`, `accountsOverviewPage`, `openAccountPage`, `transferFundsPage`, `billPayPage` | Page objects.                                                          |
 
 Use `signedInCustomer` for any UI test that isn't about logging in. Arrange preconditions (extra
 accounts, balances) through `api`, not the UI.

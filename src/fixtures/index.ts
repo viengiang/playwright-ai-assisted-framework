@@ -7,6 +7,7 @@ import { RegistrationService } from '@api/services/registration.service';
 import { TransferService } from '@api/services/transfer.service';
 import { CustomerBuilder, type NewCustomer } from '@data/builders/customer.builder';
 import { AccountsOverviewPage } from '@pages/accounts-overview.page';
+import { BillPayPage } from '@pages/bill-pay.page';
 import { LoginPage } from '@pages/login.page';
 import { OpenAccountPage } from '@pages/open-account.page';
 import { RegisterPage } from '@pages/register.page';
@@ -36,6 +37,7 @@ interface Fixtures {
   accountsOverviewPage: AccountsOverviewPage;
   openAccountPage: OpenAccountPage;
   transferFundsPage: TransferFundsPage;
+  billPayPage: BillPayPage;
 }
 
 async function registerCustomer(request: APIRequestContext, api: Api): Promise<RegisteredCustomer> {
@@ -86,6 +88,9 @@ export const test = base.extend<Fixtures>({
   },
   transferFundsPage: async ({ page }, use) => {
     await use(new TransferFundsPage(page));
+  },
+  billPayPage: async ({ page }, use) => {
+    await use(new BillPayPage(page));
   },
 });
 
