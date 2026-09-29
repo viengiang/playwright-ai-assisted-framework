@@ -102,3 +102,15 @@ tests/ui, tests/api
 - **Public instance** sits behind Cloudflare and served a bot challenge after about 30 sign-ups
   in a burst. **Default `ENV` is now `local`** (Docker; approved after Phase 1). `ENV=public`
   stays available as an opt-in for occasional smoke runs.
+
+## Status
+
+| Phase           | State | Notes                                                                                                                                                       |
+| --------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0 — Plan        | done  | Approved 2026-09-29                                                                                                                                         |
+| 1 — Framework   | done  | 8 API + 7 UI tests; CI green on GitHub                                                                                                                      |
+| 2 — AI workflow | done  | `.mcp.json`, `ai/*` (generate-ui-test and review-ai-tests at 1.1.0), Bill Pay demo: draft `a1ae604` → reviewed `c9bd7c0`, see `docs/ai-workflow-example.md` |
+| 3 — README      | done  | README, MIT license (author placeholders to fill in)                                                                                                        |
+
+Follow-ups: `@known-defect` API test for Bill Pay negative amounts (KNOWN-ISSUES #7) via
+`/generate-api-tests POST /billpay`; fill in the author name and links in README.md and LICENSE.
