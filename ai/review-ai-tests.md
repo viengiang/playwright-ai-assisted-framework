@@ -1,6 +1,6 @@
 ---
 id: review-ai-tests
-version: 1.0.0
+version: 1.1.0
 updated: 2026-09-29
 ---
 
@@ -27,7 +27,9 @@ A human runs it (optionally with an agent's help) before an AI draft is merged.
    table.
 3. **Sensitivity check (negative control).** For each key assertion, temporarily break the
    expectation (e.g. expected amount + 0.01, a wrong account id, a different message) and confirm
-   the test fails with a readable error. Revert afterwards. If a test still passes when its
+   the test fails with a readable error. For negative tests, do the reverse: make the action
+   succeed (e.g. matching values) and remove the error-message assertion. The "nothing changed"
+   assertions must still fail, on every run (`--repeat-each=10`). Revert afterwards. If a test still passes when its
    expectation is wrong, it doesn't test anything.
 4. **Fix or send back.** Blockers and majors must be fixed before merge. Record what the AI got
    wrong. The pattern feeds back into the generator instructions (bump its version).
@@ -49,6 +51,9 @@ justify).
 - [ ] **M** Money uses deltas in cents (`toCents`), not absolute defaults or floating-point math.
 - [ ] **M** Negative paths assert that nothing changed (no record created, balance untouched), not
       only that an error appeared.
+- [ ] **B** "Nothing changed" assertions don't race the action. `toBeHidden()` on a success
+      element and state reads straight after a click are not proof. Assert the absence of the
+      state-changing request after a positive UI signal, and pass the reverse negative control.
 - [ ] **M** Passed the sensitivity check (procedure step 3).
 
 ### 2. Locators
@@ -109,3 +114,9 @@ Sensitivity check: <assertion> → failed as expected ✓ / still passed ✗
 Verdict: approve | approve after fixes | send back
 Feedback for the generator: <patterns worth encoding in ai/generate-*.md>
 ```
+
+## Changelog
+
+- **1.1.0:** reverse negative control for "nothing changed" assertions; blocker for racing
+  negative checks (from the Bill Pay review, see `docs/ai-workflow-example.md`).
+- **1.0.0:** initial version.

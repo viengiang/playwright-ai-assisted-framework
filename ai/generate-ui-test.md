@@ -1,6 +1,6 @@
 ---
 id: generate-ui-test
-version: 1.0.0
+version: 1.1.0
 updated: 2026-09-29
 ---
 
@@ -94,6 +94,12 @@ Create `tests/ui/<feature>.spec.ts`:
 - Money: capture balances before, compare deltas in cents (`toCents`), format UI expectations with
   `formatUsd`.
 - Exact texts come from the exploration notes.
+- **Proving that nothing happened** (a refused payment, a rejected form) needs a deterministic
+  signal. First wait for the positive UI signal (the validation message). Then assert that the
+  state-changing request was never sent: record it in the page object (see
+  `BillPayPage.paymentRequests`). `toBeHidden()` on a success element passes instantly and proves
+  nothing. Reading balances straight after the click races the request, so keep API "unchanged"
+  checks as a final ledger check, not as the proof.
 
 ### 5. Run and iterate
 
@@ -121,6 +127,8 @@ Reply with:
 
 - [ ] Every scenario has an observable outcome, and the test asserts it
 - [ ] State-changing flows are verified through `api`, not only through UI text
+- [ ] "Nothing happened" is proven by the absence of the request after a positive UI signal, not
+      by `toBeHidden()` or an immediate state read
 - [ ] Only the local instance was used; the test customer was created fresh
 - [ ] No `waitForTimeout`, `waitForSelector`, `networkidle`, `force: true`, `if` in tests
 - [ ] Locators follow the ladder; every CSS locator has a "why" comment
@@ -129,3 +137,9 @@ Reply with:
 - [ ] Titles start with `should`, every test has a tag
 - [ ] `npm run check` passes; tests pass 3/3 with `--repeat-each=3` on chromium
 - [ ] App behaviour that contradicts the story is reported, not hidden
+
+## Changelog
+
+- **1.1.0:** added the rule for proving "nothing happened" (from the Bill Pay review, see
+  `docs/ai-workflow-example.md`).
+- **1.0.0:** initial version.
