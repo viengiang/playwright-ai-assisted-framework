@@ -100,4 +100,5 @@ tests/ui, tests/api
 - **Known ParaBank defect** (negative transfer amounts accepted) is covered by a `test.fail()`
   test tagged `@known-defect`.
 - **Public instance** sits behind Cloudflare and served a bot challenge after about 30 sign-ups
-  in a burst. Default `ENV` is open for decision (see Phase 1 summary).
+  in a burst. **Default `ENV` is now `local`** (Docker; approved after Phase 1). `ENV=public`
+  stays available as an opt-in for occasional smoke runs.

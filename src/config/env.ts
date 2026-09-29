@@ -4,7 +4,7 @@ import { z } from 'zod';
 dotenv.config({ quiet: true });
 
 const EnvSchema = z.object({
-  ENV: z.enum(['public', 'local']).default('public'),
+  ENV: z.enum(['local', 'public']).default('local'),
   PARABANK_PORT: z.coerce.number().int().positive().default(8090),
   BASE_URL: z.url().optional(),
   CI: z.stringbool().default(false),

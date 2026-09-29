@@ -8,8 +8,9 @@ explain choices that look odd without that context.
 ## Stack
 
 - Playwright Test + TypeScript (strict). Node 22 (`nvm use`).
-- System under test: ParaBank (UI + REST API). `ENV=public` targets the shared demo;
-  `ENV=local` targets Docker (`npm run env:up`), which is what CI uses.
+- System under test: ParaBank (UI + REST API). Default `ENV=local` targets Docker
+  (`npm run env:up`), as CI does. `ENV=public` targets the shared demo: opt-in, for occasional
+  smoke runs only (it rate-limits bursts of sign-ups, see KNOWN-ISSUES #6).
 - zod for API response schemas, @faker-js/faker for test data.
 
 ## Commands
@@ -26,7 +27,7 @@ npm run test:regression
 npm run report        # open the last HTML report
 ```
 
-Before committing: `npm run check` and `ENV=local npm test` must pass.
+Before committing: `npm run check` and `npm test` (local Docker) must pass.
 
 ## Layout
 
