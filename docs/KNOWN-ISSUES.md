@@ -67,3 +67,14 @@ Buttons, links, headings and table rows still use role-based locators.
 **Handling:** tests create their own data and assert balance deltas, never absolute defaults.
 Admin endpoints are never called on the public instance. The suite reports the Cloudflare
 challenge with a clear message and never tries to get around it. CI runs against Docker.
+
+## 7. Bill Pay accepts negative amounts and credits the account
+
+Found by the AI during the Bill Pay demo (`docs/ai-workflow-example.md`), then reproduced
+independently over REST: `POST /billpay?accountId=…&amount=-5` answers `200`, the account's
+balance goes from 100.00 to **105.00**, and the ledger records a `Debit` of `-5.00`. A bill payment
+creates money. The UI accepts the same input and shows _"…in the amount of $-5.00 … was
+successful."_
+
+**Handling:** not yet covered by a test. A `@known-defect` API test for `POST /billpay` needs a
+bill-pay service and model, which is follow-up work for `/generate-api-tests`.
