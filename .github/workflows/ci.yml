@@ -16,7 +16,7 @@ permissions:
 jobs:
   quality:
     name: Format, lint & typecheck
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
@@ -32,7 +32,7 @@ jobs:
   test:
     name: Tests (shard ${{ matrix.shard }}/${{ strategy.job-total }})
     needs: quality
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     strategy:
       fail-fast: false
@@ -70,7 +70,7 @@ jobs:
     name: Merge HTML report
     needs: test
     if: ${{ !cancelled() }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
