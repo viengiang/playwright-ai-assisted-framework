@@ -7,7 +7,7 @@
 
 A public reference repository showing senior-level test automation with Playwright + TypeScript,
 plus a human-in-the-loop, AI-assisted test generation workflow. The intended readers are
-engineering teams (e.g. FinTech / SaaS) evaluating test automation approaches. It must look and
+product and engineering teams evaluating test automation approaches. It must look and
 behave like a real production framework, not a tutorial.
 
 ## Hard constraints

@@ -222,7 +222,7 @@ CLAUDE.md                  Conventions for humans and AI agents
 
 ## Author
 
-**[Author Name]** · [LinkedIn](https://www.linkedin.com/in/your-profile) · [Portfolio](https://example.com) · [Email](mailto:you@example.com)
+**Giang Dat Vien**, Quality Engineer: Playwright, API and AI-assisted test automation.
 
 Licensed under the [MIT License](LICENSE). ParaBank is a demo application by Parasoft; this
 repository is not affiliated with Parasoft.
